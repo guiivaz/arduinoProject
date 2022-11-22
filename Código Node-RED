@@ -1,0 +1,27 @@
+var sensor = require("node-dht-sensor");
+ 
+sensor.read(11, 4, function(err, temperatura, umidade) {
+  if (!err) {
+    console.log(`temp: ${temperatura}°C, umidade: ${umidade}%`);
+  }
+});
+
+//Chamada da API
+var sensor = require("node-dht-sensor").promises;
+ 
+
+sensor.setMaxRetries(10);
+sensor.initialize(22, 17);
+ 
+ 
+sensor.read(22, 17).then(
+  function(res) {
+    console.log(
+      `temp: ${res.temperatura.toFixed(1)}°C, ` +
+        `umidade: ${res.umidade.toFixed(1)}%`
+    );
+  },
+  function(erro) {
+    console.error("Falha de leitura do sensor:", erro);
+  }
+);
